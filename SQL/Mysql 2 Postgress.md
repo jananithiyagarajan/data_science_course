@@ -1,4 +1,4 @@
-# MySQL to PostgreSQL
+# MySQL to PostgreSQL — Complete Setup & Migration Guide
 
 A complete step-by-step guide from installing MySQL & PostgreSQL to migrating your data.
 
@@ -111,7 +111,7 @@ SELECT * FROM departments;
 
 ## Part 4: Export Data from MySQL
 
-### Option A — Using MySQL Workbench
+### Option A — Using MySQL Workbench (No Terminal Needed)
 
 1. Open MySQL Workbench → Connect to your database
 2. Go to **Server** → **Data Export**
@@ -128,43 +128,36 @@ mysqldump -u root -p company_db > company_db.sql
 
 ---
 
-## Part 5: Create Database in PostgreSQL
+## Part 5: Import the SQL Backup into PostgreSQL
 
-Open **pgAdmin** (or psql terminal) and run:
+> ✅ Since you already exported a `.sql` backup file from MySQL, **you do NOT need to manually create the database or tables**. The backup file already contains all `CREATE DATABASE`, `CREATE TABLE`, and `INSERT` statements — it handles everything automatically.
 
-### Step 1: Create the Database
-```sql
-CREATE DATABASE company_db;
+### Step 1: Clean the MySQL dump (removes MySQL-specific syntax)
+
+Run these in your terminal before importing:
+
+```bash
+sed -i 's/`/"/g' /path/to/company_db.sql
+sed -i 's/ENGINE=InnoDB//g' /path/to/company_db.sql
+sed -i 's/DEFAULT CHARSET=utf8mb4//g' /path/to/company_db.sql
+sed -i 's/DEFAULT CHARSET=utf8//g' /path/to/company_db.sql
+sed -i 's/AUTO_INCREMENT=[0-9]*//g' /path/to/company_db.sql
+sed -i 's/AUTO_INCREMENT//' /path/to/company_db.sql
+sed -i '/^SET /d' /path/to/company_db.sql
+sed -i '/^\/\*/d' /path/to/company_db.sql
 ```
 
-### Step 2: Connect to the Database
-```sql
--- In psql terminal:
-\c company_db
+> **Windows users:** Run these in Git Bash or WSL — they won't work in Command Prompt.
 
--- In pgAdmin: right-click company_db → Query Tool
+### Step 2: Import directly into PostgreSQL
+
+```bash
+psql -U postgres -f /path/to/company_db.sql
 ```
 
-### Step 3: Create Tables (PostgreSQL Syntax)
-```sql
--- Employees table
-CREATE TABLE employees (
-    id          SERIAL PRIMARY KEY,           -- SERIAL replaces AUTO_INCREMENT
-    name        VARCHAR(100) NOT NULL,
-    email       VARCHAR(150) UNIQUE NOT NULL,
-    department  VARCHAR(100),
-    salary      NUMERIC(10, 2),              -- NUMERIC replaces DECIMAL
-    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+That's it — the `.sql` file automatically creates the database, tables, and inserts all data.
 
--- Departments table
-CREATE TABLE departments (
-    id          SERIAL PRIMARY KEY,
-    dept_name   VARCHAR(100) NOT NULL,
-    location    VARCHAR(100),
-    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
+> **If you still get syntax errors** after cleaning, use pgLoader instead (see Part 6 Method 1) — it handles all MySQL-to-PostgreSQL conversion automatically with zero manual editing.
 
 ---
 
