@@ -154,7 +154,27 @@ sed -i 's/COLLATE=[^ ;]*//g' /path/to/company_db.sql
 sed -i 's/COLLATE [^ ,)]*//g' /path/to/company_db.sql
 sed -i 's/UNIQUE KEY "[^"]*" (\("[^"]*"\))/UNIQUE (\1)/g' /path/to/company_db.sql
 ```
-
+#### or
+```bash
+sed -i '
+s/`/"/g;
+s/ENGINE=InnoDB//g;
+s/DEFAULT CHARSET=utf8mb4//g;
+s/DEFAULT CHARSET=utf8//g;
+s/AUTO_INCREMENT=[0-9]*//g;
+s/AUTO_INCREMENT//g;
+/^SET /d;
+/^\/\*/d;
+s/\/\*![0-9]*[^*]*\*\///g;
+/^CREATE DATABASE/d;
+/^USE /d;
+/^LOCK TABLES/d;
+/^UNLOCK TABLES/d;
+s/COLLATE=[^ ;]*//g;
+s/COLLATE [^ ,)]*//g;
+s/UNIQUE KEY "[^"]*" (\("[^"]*"\))/UNIQUE (\1)/g;
+' demo.sql
+```
 
 
 # Sed Cleanup Commands — Explained
