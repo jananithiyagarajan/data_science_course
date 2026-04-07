@@ -155,6 +155,219 @@ sed -i 's/COLLATE [^ ,)]*//g' /path/to/company_db.sql
 sed -i 's/UNIQUE KEY "[^"]*" (\("[^"]*"\))/UNIQUE (\1)/g' /path/to/company_db.sql
 ```
 
+
+
+# Sed Cleanup Commands — Explained
+
+Each command below strips MySQL-specific syntax from the dump file to make it compatible with PostgreSQL.
+
+> **Pattern:** `sed -i 's/find/replace/g'` → find and replace text
+> **Pattern:** `sed -i '/pattern/d'` → find and delete the entire line
+
+---
+
+## 1. Replace Backticks with Double Quotes
+
+```bash
+sed -i 's/`/"/g' /path/to/company_db.sql
+```
+
+**What it does:** MySQL wraps table and column names in backticks `` ` `` — PostgreSQL doesn't understand them. This replaces every backtick with a double quote, which is the PostgreSQL standard.
+
+| | Example |
+|---|---|
+| Before (MySQL) | `` `employees` `` |
+| After (PostgreSQL) | `"employees"` |
+
+---
+
+## 2. Remove ENGINE=InnoDB
+
+```bash
+sed -i 's/ENGINE=InnoDB//g' /path/to/company_db.sql
+```
+
+**What it does:** InnoDB is MySQL's storage engine. PostgreSQL doesn't have storage engines — this keyword causes a syntax error if left in.
+
+| | Example |
+|---|---|
+| Before | `CREATE TABLE employees (...) ENGINE=InnoDB;` |
+| After | `CREATE TABLE employees (...);` |
+
+---
+
+## 3. Remove DEFAULT CHARSET
+
+```bash
+sed -i 's/DEFAULT CHARSET=utf8mb4//g' /path/to/company_db.sql
+sed -i 's/DEFAULT CHARSET=utf8//g' /path/to/company_db.sql
+```
+
+**What it does:** MySQL sets character encoding using `DEFAULT CHARSET`. PostgreSQL handles encoding at the database level — this line is meaningless and causes errors in PostgreSQL.
+
+| | Example |
+|---|---|
+| Before | `DEFAULT CHARSET=utf8mb4` |
+| After | *(removed)* |
+
+---
+
+## 4. Remove AUTO_INCREMENT Value
+
+```bash
+sed -i 's/AUTO_INCREMENT=[0-9]*//g' /path/to/company_db.sql
+```
+
+**What it does:** MySQL tracks the next auto increment number like `AUTO_INCREMENT=5`. PostgreSQL uses `SERIAL` / sequences instead — this MySQL-only attribute must be removed.
+
+| | Example |
+|---|---|
+| Before | `AUTO_INCREMENT=5` |
+| After | *(removed)* |
+
+---
+
+## 5. Remove AUTO_INCREMENT Keyword
+
+```bash
+sed -i 's/AUTO_INCREMENT//' /path/to/company_db.sql
+```
+
+**What it does:** The previous command removed `AUTO_INCREMENT=5` (with a number). This one removes any remaining `AUTO_INCREMENT` keyword that appears without a number — typically inside column definitions.
+
+| | Example |
+|---|---|
+| Before | `"id" int NOT NULL AUTO_INCREMENT` |
+| After | `"id" int NOT NULL` |
+
+---
+
+## 6. Delete SET Lines
+
+```bash
+sed -i '/^SET /d' /path/to/company_db.sql
+```
+
+**What it does:** MySQL dumps include `SET` statements to configure session variables like timezone, charset, and foreign key checks. These are MySQL-only and not valid in PostgreSQL — the entire line is deleted.
+
+| | Example |
+|---|---|
+| Before | `SET FOREIGN_KEY_CHECKS=0;` |
+| After | *(entire line deleted)* |
+
+---
+
+## 7. Delete Comment Lines Starting with `/*`
+
+```bash
+sed -i '/^\/\*/d' /path/to/company_db.sql
+```
+
+**What it does:** MySQL adds comment lines starting with `/*` at the top of dump files (version info, dump metadata). This deletes those full comment lines.
+
+| | Example |
+|---|---|
+| Before | `/* MySQL dump 10.13 Distrib 8.0.45 */` |
+| After | *(entire line deleted)* |
+
+---
+
+## 8. Remove MySQL Inline Version Comments
+
+```bash
+sed -i 's/\/\*![0-9]*[^*]*\*\///g' /path/to/company_db.sql
+```
+
+**What it does:** MySQL uses special inline version comments like `/*!40100 DEFAULT CHARACTER SET utf8mb4 */` — these run only on MySQL versions above a certain number. PostgreSQL doesn't understand this syntax at all, so they are removed inline (not the whole line, just this part).
+
+| | Example |
+|---|---|
+| Before | `CREATE DATABASE "company_db" /*!40100 DEFAULT CHARACTER SET utf8mb4 */;` |
+| After | `CREATE DATABASE "company_db";` |
+
+---
+
+## 9. Delete CREATE DATABASE Line
+
+```bash
+sed -i '/^CREATE DATABASE/d' /path/to/company_db.sql
+```
+
+**What it does:** MySQL's `CREATE DATABASE IF NOT EXISTS` syntax with inline charset options is not valid in PostgreSQL. The entire line is deleted — you manually create the database in PostgreSQL before importing.
+
+| | Example |
+|---|---|
+| Before | `CREATE DATABASE IF NOT EXISTS "company_db" /*!40100 DEFAULT CHARACTER SET utf8mb4 */;` |
+| After | *(entire line deleted)* |
+
+---
+
+## 10. Delete USE Statement
+
+```bash
+sed -i '/^USE /d' /path/to/company_db.sql
+```
+
+**What it does:** MySQL uses `USE db_name;` to switch databases. In PostgreSQL you connect to a database directly using `\c` or the `-d` flag — the `USE` command doesn't exist.
+
+| | Example |
+|---|---|
+| Before | `USE "company_db";` |
+| After | *(entire line deleted)* |
+
+---
+
+## 11. Delete LOCK and UNLOCK TABLES
+
+```bash
+sed -i '/^LOCK TABLES/d' /path/to/company_db.sql
+sed -i '/^UNLOCK TABLES/d' /path/to/company_db.sql
+```
+
+**What it does:** MySQL uses `LOCK TABLES` and `UNLOCK TABLES` to prevent other users from editing data during the dump. PostgreSQL doesn't support these commands — both lines are deleted.
+
+| | Example |
+|---|---|
+| Before | `LOCK TABLES "employees" WRITE;` |
+| After | *(entire line deleted)* |
+
+---
+
+## 12. Remove COLLATE
+
+```bash
+sed -i 's/COLLATE=[^ ;]*//g' /path/to/company_db.sql
+sed -i 's/COLLATE [^ ,)]*//g' /path/to/company_db.sql
+```
+
+**What it does:** `COLLATE` sets how MySQL sorts and compares text (e.g. case sensitivity). PostgreSQL handles collation differently and doesn't accept MySQL's collation names — so they must be stripped out.
+
+| | Example |
+|---|---|
+| Before | `COLLATE=utf8mb4_0900_ai_ci` |
+| After | *(removed)* |
+
+---
+
+## 13. Fix UNIQUE KEY Syntax
+
+```bash
+sed -i 's/UNIQUE KEY "[^"]*" (\("[^"]*"\))/UNIQUE (\1)/g' /path/to/company_db.sql
+```
+
+**What it does:** MySQL defines unique constraints as `UNIQUE KEY "name" ("column")`. PostgreSQL only understands `UNIQUE ("column")` — the `KEY` keyword and constraint name in this position are not valid.
+
+| | Example |
+|---|---|
+| Before | `UNIQUE KEY "email" ("email")` |
+| After | `UNIQUE ("email")` |
+
+---
+
+
+---
+
+*Replace `/path/to/company_db.sql` with the actual path to your exported SQL file.*
 > **Windows users:** Run these in Git Bash or WSL — they won't work in Command Prompt.
 
 ### Step 2: Import directly into PostgreSQL
