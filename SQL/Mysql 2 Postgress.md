@@ -1,4 +1,4 @@
-# MySQL to PostgreSQL — Complete Setup & Migration Guide
+# MySQL to PostgreSQL
 
 A complete step-by-step guide from installing MySQL & PostgreSQL to migrating your data.
 
