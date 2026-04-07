@@ -145,6 +145,14 @@ sed -i 's/AUTO_INCREMENT=[0-9]*//g' /path/to/company_db.sql
 sed -i 's/AUTO_INCREMENT//' /path/to/company_db.sql
 sed -i '/^SET /d' /path/to/company_db.sql
 sed -i '/^\/\*/d' /path/to/company_db.sql
+sed -i 's/\/\*![0-9]*[^*]*\*\///g' /path/to/company_db.sql
+sed -i '/^CREATE DATABASE/d' /path/to/company_db.sql
+sed -i '/^USE /d' /path/to/company_db.sql
+sed -i '/^LOCK TABLES/d' /path/to/company_db.sql
+sed -i '/^UNLOCK TABLES/d' /path/to/company_db.sql
+sed -i 's/COLLATE=[^ ;]*//g' /path/to/company_db.sql
+sed -i 's/COLLATE [^ ,)]*//g' /path/to/company_db.sql
+sed -i 's/UNIQUE KEY "[^"]*" (\("[^"]*"\))/UNIQUE (\1)/g' /path/to/company_db.sql
 ```
 
 > **Windows users:** Run these in Git Bash or WSL — they won't work in Command Prompt.
