@@ -111,7 +111,7 @@ SELECT * FROM departments;
 
 ## Part 4: Export Data from MySQL
 
-### Option A — Using MySQL Workbench (No Terminal Needed)
+### Option A — Using MySQL Workbench
 
 1. Open MySQL Workbench → Connect to your database
 2. Go to **Server** → **Data Export**
