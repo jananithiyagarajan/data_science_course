@@ -455,6 +455,150 @@ SELECT * FROM departments LIMIT 10;
 
 ---
 
+
+
+# DBeaver Installation and Connection Guide
+
+## 1. Introduction
+
+DBeaver is a universal database tool that supports multiple databases such as MySQL, PostgreSQL, Oracle, SQL Server, and more. It is widely used for database management, querying, and migration.
+
+---
+
+## 2. Installation
+
+### 2.1 Windows Installation
+
+1. Go to the official website:
+   [https://dbeaver.io/download/](https://dbeaver.io/download/)
+
+2. Download the **DBeaver Community Edition (Windows Installer)**.
+
+3. Run the downloaded `.exe` file.
+
+4. Follow the installation steps:
+
+   * Click Next
+   * Accept license agreement
+   * Choose installation location
+   * Click Install
+
+5. Click Finish and launch DBeaver.
+
+---
+
+### 2.2 Ubuntu Installation
+
+```bash
+sudo apt update
+sudo apt install dbeaver -y
+```
+
+---
+
+## 3. First Launch
+
+When you open DBeaver for the first time:
+
+* You may be asked to create a workspace
+* Click **OK** to proceed
+
+---
+
+## 4. Create Database Connection
+
+### 4.1 Open Connection Wizard
+
+1. Click **Database → New Database Connection**
+2. Or click the **plug icon** (top left)
+
+---
+
+### 4.2 Select Database Type
+
+Choose your database:
+
+* MySQL
+* PostgreSQL
+
+Click **Next**
+
+---
+
+### 4.3 Enter Connection Details
+
+#### For MySQL
+
+| Field    | Value               |
+| -------- | ------------------- |
+| Host     | localhost           |
+| Port     | 3306                |
+| Database | your_database_name  |
+| Username | root (or your user) |
+| Password | your password       |
+
+---
+
+#### For PostgreSQL
+
+| Field    | Value                 |
+| -------- | --------------------- |
+| Host     | localhost             |
+| Port     | 5432                  |
+| Database | postgres (or your DB) |
+| Username | postgres              |
+| Password | your password         |
+
+---
+
+### 4.4 Download Driver (First Time Only)
+
+* Click **Download** if prompted
+* Wait for driver installation
+
+---
+
+### 4.5 Test Connection
+
+* Click **Test Connection**
+* If successful → Click **Finish**
+
+---
+
+## 5. Basic Navigation
+
+After connection:
+
+```
+Connection
+ └── Databases
+      └── Tables
+           └── Columns
+```
+
+---
+
+## 6. Running Queries
+
+1. Right-click database
+2. Click **SQL Editor → Open SQL Script**
+3. Write query
+4. Click **Execute (▶)**
+
+---
+
+## 7. Data Transfer (Migration)
+
+1. Expand source database
+2. Select tables
+3. Right-click → **Export Data / Data Transfer**
+4. Choose target database
+5. Click Next → Finish
+
+---
+
+
+
 ## MySQL vs PostgreSQL — Key Syntax Differences
 
 | Feature          | MySQL                  | PostgreSQL                          |
@@ -469,59 +613,3 @@ SELECT * FROM departments LIMIT 10;
 | Use database     | `USE db_name;`         | `\c db_name`                        |
 
 ---
-
-## Migration Method Comparison
-
-| | pgLoader | CSV Method |
-|---|---|---|
-| **Effort** | ⭐ Very Easy | Moderate |
-| **Auto type conversion** | ✅ Yes | ❌ Manual |
-| **Indexes migrated** | ✅ Yes | ❌ Must recreate |
-| **Large data** | ✅ Handles well | Can be slow |
-| **Requires terminal** | Yes | No |
-| **Best for** | Full DB migration | Small/medium tables |
-
----
-
-## Troubleshooting
-
-**Cannot connect to MySQL**
-```
-Access denied for user 'root'@'localhost'
-```
-→ Check your password. Reset with: `ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';`
-
----
-
-**COPY permission denied in PostgreSQL**
-```
-ERROR: could not open file: Permission denied
-```
-→ Use `\copy` instead of `COPY`, or move the CSV to `/tmp/` folder.
-
----
-
-**pgLoader data type error**
-```
-ERROR: invalid input syntax for type
-```
-→ Check for null values or special characters in your MySQL data before migrating.
-
----
-
-**Port conflict**
-```
-ERROR: could not connect to server: Connection refused (port 5432)
-```
-→ Make sure PostgreSQL service is running:
-```bash
-# Linux/Mac
-sudo systemctl start postgresql
-
-# Windows
-# Open Services → Find PostgreSQL → Start
-```
-
----
-
-*Complete guide: MySQL installation → database creation → data export → PostgreSQL setup → import & verification.*
