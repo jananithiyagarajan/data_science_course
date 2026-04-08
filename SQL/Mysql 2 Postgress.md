@@ -438,34 +438,6 @@ pgLoader will automatically migrate all tables, data, indexes, and convert data 
 
 ---
 
-### Method 2: CSV Export/Import (No Extra Tools Needed)
-
-#### Step 1: Export Each Table as CSV from MySQL Workbench
-1. Run: `SELECT * FROM employees;`
-2. Click the **Export** icon in the result grid
-3. Save as `employees.csv`
-4. Repeat for each table
-
-#### Step 2: Import CSV into PostgreSQL
-```sql
--- Import employees
-COPY employees (id, name, email, department, salary, created_at)
-FROM '/path/to/employees.csv'
-DELIMITER ',' CSV HEADER;
-
--- Import departments
-COPY departments (id, dept_name, location, created_at)
-FROM '/path/to/departments.csv'
-DELIMITER ',' CSV HEADER;
-```
-
-> **Windows path example:** `C:/exports/employees.csv`  
-> **Mac/Linux path example:** `/home/yourname/exports/employees.csv`
-
-> If you get a permission error, use `\copy` instead of `COPY`.
-
----
-
 ## Part 7: Verify Migration in PostgreSQL
 
 ```sql
