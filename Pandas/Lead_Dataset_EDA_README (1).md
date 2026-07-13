@@ -1,6 +1,4 @@
-# Lead Dataset EDA - Step by Step Guide
-
-This guide explains each task in the notebook.
+# Lead Dataset EDA - Practice
 
 
 ## Task 1
