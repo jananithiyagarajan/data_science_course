@@ -231,17 +231,93 @@ print(result)
 
 #### Q3-Write a program to count how many digits are in a number (e.g. 9876 → 4 digits).
 
+```python
+num = int(input("Enter a number: "))
+count = 0
+temp = abs(num)   # handle negative numbers
 
+if temp == 0:
+    count = 1
+else:
+    while temp > 0:
+        temp = temp // 10
+        count += 1
 
+print(f"Number of digits: {count}")
+```
 
+---
 
+## 🎯 Student Tasks – Module 02: Loops & Loop Control
 
+### Task 1: Multiplication Table Generator (Easy)
+**Objective**: Practice for loops with range.
 
+**Instructions**:
+1. Ask the user to enter a number.
+2. Print its multiplication table from 1 to 12.
+3. Format: `5 x 3 = 15`
 
+**Expected Output**:
+```
+Enter a number: 7
+7 x 1 = 7
+7 x 2 = 14
+...
+7 x 12 = 84
+```
 
+---
 
+### Task 2: Number Pattern & Sum (Medium)
+**Objective**: Practice nested loops and while loops.
 
+**Instructions**:
+1. Print the following star pattern (5 rows):
+   ```
+   *
+   **
+   ***
+   ****
+   *****
+   ```
+2. Then use a while loop to find the sum of all even numbers from 1 to 50.
+3. Use `continue` to skip odd numbers.
 
+**Expected Output**:
+```
+*
+**
+***
+****
+*****
 
+Sum of even numbers (1-50): 650
+```
+
+---
+
+### Task 3: Guess the Number Game (Challenge)
+**Objective**: Combine while loop, break, and continue.
+
+**Instructions**:
+1. Store a secret number (e.g., 42).
+2. Use a while loop to keep asking the user to guess.
+3. Use `break` when the user guesses correctly.
+4. Use `continue` to skip and print hints if the guess is out of range (< 1 or > 100).
+5. Count and display the number of attempts.
+6. Give hints: `"Too high"` or `"Too low"`.
+
+**Expected Output**:
+```
+Guess the number (1-100): 50
+Too high! Try again.
+Guess the number (1-100): 30
+Too low! Try again.
+Guess the number (1-100): 42
+🎉 Correct! You guessed it in 3 attempts.
+```
+
+---
 
 

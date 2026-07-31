@@ -222,3 +222,108 @@ If you want, I can also create:
 
 ### Would you like the **roadmap as a printable PDF + Notion template**?
 
+---
+
+## 🎯 Student Tasks – Gen AI Roadmap
+
+### Task 1: Roadmap Self-Assessment (Easy)
+**Objective**: Evaluate where you currently stand on the Gen AI learning path.
+
+**Instructions**:
+1. Review each stage of the Gen AI roadmap above.
+2. For each skill area, rate yourself: 0 (never heard), 1 (heard of it), 2 (basic understanding), 3 (can use it), 4 (comfortable), 5 (expert).
+3. Fill in this self-assessment table:
+
+| Skill                     | My Rating (0-5) | Target | Gap |
+| ------------------------- | --------------- | ------ | --- |
+| Python                    |                 | 4      |     |
+| Pandas / NumPy            |                 | 4      |     |
+| Machine Learning basics   |                 | 3      |     |
+| Deep Learning (Keras/PyTorch) |             | 3      |     |
+| NLP fundamentals          |                 | 3      |     |
+| LLM APIs (GPT/Gemini)     |                 | 4      |     |
+| Prompt Engineering        |                 | 4      |     |
+| Vector Databases          |                 | 3      |     |
+| RAG systems               |                 | 3      |     |
+| FastAPI / Model Serving   |                 | 3      |     |
+
+4. Identify your top 3 gaps.
+5. Create a personal 30-day learning plan to close those gaps.
+
+---
+
+### Task 2: Build Your Gen AI Portfolio (Medium)
+**Objective**: Start building a portfolio of Gen AI projects.
+
+**Instructions**:
+Complete at least 3 of these projects and push them to GitHub:
+
+**Level 1 (Start here)**:
+- [ ] Sentiment analysis chatbot using Gemini API
+- [ ] Text summarizer API using FastAPI + HuggingFace
+- [ ] Q&A bot over a PDF document (RAG)
+
+**Level 2 (Intermediate)**:
+- [ ] Personal AI tutor for a specific subject
+- [ ] Code review bot (analyze Python code and suggest improvements)
+- [ ] Multi-language translator with language detection
+
+**Level 3 (Advanced)**:
+- [ ] Custom fine-tuned model for a domain (medical, legal, technical)
+- [ ] Multi-agent workflow (research agent + writing agent)
+- [ ] End-to-end RAG system with ChromaDB + Gemini + FastAPI
+
+For each project:
+1. Write a clear README explaining what it does.
+2. Include setup instructions.
+3. Add example inputs/outputs.
+4. Deploy to Hugging Face Spaces or Railway (free hosting).
+
+---
+
+### Task 3: Research Paper Analysis (Challenge)
+**Objective**: Develop the habit of reading and understanding AI research.
+
+**Instructions**:
+1. Read one foundational paper from this list:
+   - "Attention Is All You Need" (Transformer architecture) — Vaswani et al., 2017
+   - "BERT: Pre-training Deep Bidirectional Transformers" — Devlin et al., 2018
+   - "Language Models are Few-Shot Learners" (GPT-3) — Brown et al., 2020
+   - "LLaMA: Open and Efficient Foundation Language Models" — Touvron et al., 2023
+
+2. Write a 1-page summary answering:
+   - What problem does this paper solve?
+   - What is the key innovation?
+   - How does it work (in simple terms)?
+   - What were the results?
+   - What is its impact on Gen AI today?
+
+3. Implement a simplified version of the paper's key concept:
+   - Transformer: implement scaled dot-product attention in NumPy
+   - BERT: use pre-trained BERT for text classification
+   - GPT-3: demonstrate few-shot prompting
+   - LLaMA: load and run Llama 2 locally with Ollama
+
+4. Present your summary in a 5-minute format (can be a slide deck or video).
+
+**Expected Output**:
+```
+Paper: "Attention Is All You Need" (2017)
+
+Summary:
+  Problem: RNNs were slow (sequential) and struggled with long contexts.
+  Innovation: Self-attention mechanism — every word attends to every other word.
+  How it works: Q×K^T/√d_k gives attention weights; weight × V = output.
+  Results: BLEU score 28.4 on WMT 2014 En-De (state of the art at the time).
+  Impact: Foundation of all modern LLMs — GPT, BERT, Gemini, LLaMA.
+
+Implementation:
+  attention.py → implements multi-head attention in NumPy
+  demo.py → shows attention weights visualization
+
+Presentation: attention_paper_summary.pdf (5 slides)
+```
+
+---
+
+

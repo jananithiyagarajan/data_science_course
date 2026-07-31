@@ -412,4 +412,236 @@ II.Variables
 
 ---
 
+## 7. Operators in Python
 
+Operators are special symbols that perform operations on variables and values.
+
+### 7.1 Arithmetic Operators
+
+Used to perform basic mathematical operations.
+
+| Operator | Name           | Example     | Result |
+| -------- | -------------- | ----------- | ------ |
+| `+`      | Addition       | `5 + 3`     | `8`    |
+| `-`      | Subtraction    | `10 - 4`    | `6`    |
+| `*`      | Multiplication | `3 * 4`     | `12`   |
+| `/`      | Division       | `10 / 4`    | `2.5`  |
+| `//`     | Floor Division | `10 // 3`   | `3`    |
+| `%`      | Modulus        | `10 % 3`    | `1`    |
+| `**`     | Exponentiation | `2 ** 3`    | `8`    |
+
+```python
+a = 10
+b = 3
+print(a + b)   # 13
+print(a - b)   # 7
+print(a * b)   # 30
+print(a / b)   # 3.333...
+print(a // b)  # 3
+print(a % b)   # 1
+print(a ** b)  # 1000
+```
+
+### 7.2 Comparison (Relational) Operators
+
+Used to compare two values. Returns `True` or `False`.
+
+| Operator | Name                     | Example    | Result  |
+| -------- | ------------------------ | ---------- | ------- |
+| `==`     | Equal to                 | `5 == 5`   | `True`  |
+| `!=`     | Not equal to             | `5 != 3`   | `True`  |
+| `>`      | Greater than             | `7 > 3`    | `True`  |
+| `<`      | Less than                | `2 < 5`    | `True`  |
+| `>=`     | Greater than or equal to | `5 >= 5`   | `True`  |
+| `<=`     | Less than or equal to    | `4 <= 6`   | `True`  |
+
+```python
+x = 10
+y = 20
+print(x == y)   # False
+print(x != y)   # True
+print(x < y)    # True
+print(x >= 10)  # True
+```
+
+### 7.3 Logical Operators
+
+Used to combine conditional statements.
+
+| Operator | Description                                       | Example                 | Result  |
+| -------- | ------------------------------------------------- | ----------------------- | ------- |
+| `and`    | Returns True if **both** conditions are true      | `5 > 3 and 10 > 7`      | `True`  |
+| `or`     | Returns True if **at least one** condition is true| `5 > 3 or 10 < 7`       | `True`  |
+| `not`    | Reverses the result                               | `not (5 > 3)`           | `False` |
+
+```python
+age = 20
+has_id = True
+
+if age >= 18 and has_id:
+    print("Entry allowed")
+
+if age < 13 or age > 60:
+    print("Special ticket")
+
+if not has_id:
+    print("ID required")
+```
+
+### 7.4 Assignment Operators
+
+Used to assign values to variables.
+
+| Operator | Example    | Equivalent To  |
+| -------- | ---------- | -------------- |
+| `=`      | `x = 5`    | `x = 5`        |
+| `+=`     | `x += 3`   | `x = x + 3`    |
+| `-=`     | `x -= 3`   | `x = x - 3`    |
+| `*=`     | `x *= 3`   | `x = x * 3`    |
+| `/=`     | `x /= 3`   | `x = x / 3`    |
+| `//=`    | `x //= 3`  | `x = x // 3`   |
+| `%=`     | `x %= 3`   | `x = x % 3`    |
+| `**=`    | `x **= 2`  | `x = x ** 2`   |
+
+```python
+x = 10
+x += 5
+print(x)  # 15
+x *= 2
+print(x)  # 30
+x //= 4
+print(x)  # 7
+```
+
+---
+
+## 8. Type Casting
+
+Type casting (also called type conversion) is the process of converting one data type to another.
+
+### 8.1 Implicit Type Casting (Automatic)
+
+Python automatically converts smaller types to larger types to avoid data loss.
+
+```python
+a = 5       # int
+b = 2.5     # float
+c = a + b   # Python auto-converts a to float
+print(c)         # 7.5
+print(type(c))   # <class 'float'>
+```
+
+### 8.2 Explicit Type Casting (Manual)
+
+You manually convert types using built-in functions.
+
+| Function  | Converts To | Example                       |
+| --------- | ----------- | ----------------------------- |
+| `int()`   | Integer     | `int(3.7)` → `3`              |
+| `float()` | Float       | `float(5)` → `5.0`            |
+| `str()`   | String      | `str(100)` → `'100'`          |
+| `bool()`  | Boolean     | `bool(0)` → `False`           |
+| `list()`  | List        | `list((1,2,3))` → `[1, 2, 3]` |
+| `tuple()` | Tuple       | `tuple([1,2])` → `(1, 2)`     |
+
+```python
+# String to Integer
+age_str = "25"
+age = int(age_str)
+print(age, type(age))   # 25 <class 'int'>
+
+# Integer to Float
+num = 7
+result = float(num)
+print(result)            # 7.0
+
+# Float to Integer (truncates decimal)
+price = 99.99
+whole = int(price)
+print(whole)             # 99
+
+# Integer to String
+marks = 85
+grade_text = "Your marks: " + str(marks)
+print(grade_text)        # Your marks: 85
+
+# Boolean conversions
+print(bool(0))     # False
+print(bool(1))     # True
+print(bool(""))    # False
+print(bool("hi"))  # True
+```
+
+### 8.3 Common Pitfalls
+
+```python
+# Cannot convert non-numeric strings to int
+int("hello")   # ❌ ValueError
+
+# Input always returns string — always cast!
+num = int(input("Enter a number: "))  # ✅ Correct
+```
+
+---
+
+## 🎯 Student Tasks – Module 01: Python Introduction
+
+### Task 1: Personal Info Calculator (Easy)
+**Objective**: Practice variables, data types, input/output, and operators.
+
+**Instructions**:
+1. Ask the user to enter their name, birth year, and monthly salary.
+2. Calculate their current age using `2025 - birth_year`.
+3. Calculate their annual salary.
+4. Print a summary: `"Hello [name]! You are [age] years old and earn ₹[annual_salary] per year."`
+
+**Expected Output**:
+```
+Hello Arun! You are 24 years old and earn ₹360000 per year.
+```
+
+---
+
+### Task 2: Simple Calculator (Medium)
+**Objective**: Practice arithmetic operators and type casting.
+
+**Instructions**:
+1. Take two numbers as input from the user.
+2. Perform all arithmetic operations: `+`, `-`, `*`, `/`, `//`, `%`, `**`.
+3. Display results formatted clearly.
+4. Check if the first number is greater than, less than, or equal to the second using comparison operators.
+
+**Expected Output**:
+```
+--- Calculator Results ---
+Addition: 23
+Subtraction: 7
+Multiplication: 120
+Division: 2.5
+Floor Division: 2
+Modulus: 0
+Power: 32000
+
+15 is greater than 8
+```
+
+---
+
+### Task 3: Type Conversion Checker (Challenge)
+**Objective**: Practice type casting and string operations.
+
+**Instructions**:
+1. Create variables of each type: int, float, str, bool.
+2. Convert each to at least 2 other types.
+3. Print each variable's value AND its type using `type()`.
+4. Demonstrate one case where type casting would raise an error and handle it using a conditional check.
+
+**Expected Output**:
+```
+Original: 42  Type: <class 'int'>
+As float: 42.0  Type: <class 'float'>
+As string: '42'  Type: <class 'str'>
+As bool: True  Type: <class 'bool'>
+...
+Cannot convert 'hello' to int directly.
+```

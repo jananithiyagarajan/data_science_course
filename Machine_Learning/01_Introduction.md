@@ -449,6 +449,106 @@ Bad reward design → bad agent behavior.
 
 If not trained properly, behavior becomes unstable.
 
+---
+
+## 🎯 Student Tasks – Module 18: Machine Learning Introduction
+
+### Task 1: ML Types Classification (Easy)
+**Objective**: Identify the correct ML type for each scenario.
+
+**Instructions**:
+For each scenario below, identify whether it's **Supervised**, **Unsupervised**, or **Reinforcement Learning**, and explain why:
+
+1. Predicting house prices based on size, location, and number of rooms.
+2. Grouping customers into segments based on purchasing behavior.
+3. A chess-playing robot that learns by winning/losing games.
+4. Email spam detection (spam/not-spam labels available).
+5. Finding unusual transactions in banking data without prior labels.
+6. A self-driving car learning to navigate by trial and error.
+7. Image recognition model trained on labeled cat/dog images.
+8. Discovering topics in 10,000 news articles automatically.
+
+**Expected Output**:
+```
+1. Supervised (Regression) — labeled target: price
+2. Unsupervised (Clustering) — no labels, find natural groups
+3. Reinforcement — learns through reward/penalty
+4. Supervised (Classification) — spam/not-spam labels
+5. Unsupervised (Anomaly Detection) — no labels
+6. Reinforcement — trial and error with rewards
+7. Supervised (Classification) — labeled images
+8. Unsupervised (Topic Modeling) — no labels
+```
+
+---
+
+### Task 2: ML Workflow Simulation (Medium)
+**Objective**: Walk through the full ML workflow on a small dataset.
+
+**Instructions**:
+Use a small dataset (create manually or use sklearn's `iris` or `load_breast_cancer`):
+
+1. **Load**: Print shape, dtypes, head, and describe.
+2. **Explore**: Plot the distribution of the target variable.
+3. **Prepare**: Handle any missing values, encode categoricals.
+4. **Split**: Use `train_test_split` (80/20, random_state=42).
+5. **Train**: Fit a simple model (e.g., `DecisionTreeClassifier`).
+6. **Evaluate**: Print accuracy, classification report.
+7. **Interpret**: Which feature was most important?
+
+**Expected Output**:
+```python
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+iris = load_iris()
+X, y = iris.data, iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print(f"Accuracy: {accuracy_score(y_test, y_pred):.2f}")
+print(classification_report(y_test, y_pred))
+```
+
+---
+
+### Task 3: Comparing ML Types End-to-End (Challenge)
+**Objective**: Apply all three ML paradigms to a dataset.
+
+**Instructions**:
+Use a customer dataset with: `age`, `income`, `spending_score`, `loyalty_years`, `churned` (0/1).
+
+1. **Supervised (Classification)**: Train a model to predict `churned`.
+2. **Unsupervised (Clustering)**: Use K-Means to group customers into 3 segments.
+3. **Visualization**: Plot the clusters on a 2D scatter plot using PCA to reduce dimensions.
+4. Compare: Do the clusters align with the supervised classification labels?
+5. Print a final report with accuracy (supervised) and cluster sizes (unsupervised).
+
+**Expected Output**:
+```
+=== Supervised Classification ===
+Model: Logistic Regression
+Accuracy: 0.87
+F1-Score (churn class): 0.82
+
+=== Unsupervised Clustering ===
+Algorithm: K-Means (k=3)
+Cluster 0: 120 customers (High spending, loyal)
+Cluster 1: 95 customers (Low spending, churning)
+Cluster 2: 85 customers (Medium spending, new)
+
+Cluster-label alignment score: 0.73 (adjusted rand index)
+```
+
+---
+
+
 
 
 

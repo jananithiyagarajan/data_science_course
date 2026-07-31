@@ -193,3 +193,103 @@ one that generalizes best.
 
 > **The goal is not to find the "best algorithm", but the best algorithm
 > for your specific problem and dataset.**
+
+---
+
+## 🎯 Student Tasks – Module 20: Choosing ML Algorithms
+
+### Task 1: Problem-to-Algorithm Mapping (Easy)
+**Objective**: Match business problems to the right algorithm.
+
+**Instructions**:
+For each business problem, identify: (a) ML problem type, (b) 2 suitable algorithms, (c) why.
+
+1. Predict if a loan applicant will default.
+2. Forecast tomorrow's temperature.
+3. Recommend products to online shoppers.
+4. Group patients into risk categories (no labels available).
+5. Detect fraudulent credit card transactions.
+6. Classify news articles into topics.
+7. Predict the price of a used car.
+8. Identify which employees are likely to resign.
+
+**Expected Answer (Example)**:
+```
+1. Loan Default:
+   Type: Classification
+   Algorithms: Logistic Regression, Random Forest
+   Why: Binary outcome (default/no default), labeled training data available
+
+4. Patient Risk Groups:
+   Type: Clustering
+   Algorithms: K-Means, DBSCAN
+   Why: No predefined labels, need to discover natural groups
+```
+
+---
+
+### Task 2: Algorithm Comparison on a Dataset (Medium)
+**Objective**: Train multiple algorithms and compare performance.
+
+**Instructions**:
+Using `sklearn.datasets.load_breast_cancer()`:
+1. Train 4 different classifiers: Logistic Regression, Decision Tree, Random Forest, K-Nearest Neighbors.
+2. For each model, print: Accuracy, Precision, Recall, F1-Score.
+3. Build a comparison DataFrame with all metrics.
+4. Identify the best model.
+5. Plot a bar chart comparing all models' accuracy.
+
+**Expected Output**:
+```
+Algorithm Comparison:
+Model                 Accuracy  Precision  Recall  F1-Score
+----------------------------------------------------------
+Logistic Regression   0.961     0.958      0.979   0.968
+Decision Tree         0.947     0.945      0.965   0.955
+Random Forest         0.965     0.963      0.979   0.971  ← Best
+K-Nearest Neighbors   0.951     0.955      0.958   0.956
+
+Best Model: Random Forest (F1=0.971)
+```
+
+---
+
+### Task 3: Full ML Pipeline with Model Selection (Challenge)
+**Objective**: Build a production-like ML pipeline with proper model selection.
+
+**Instructions**:
+Using any regression dataset (e.g., California Housing):
+1. Perform EDA — print stats and create 3 visualizations.
+2. Feature engineer: handle nulls, encode categoricals, scale numerics.
+3. Train 5 models: Linear Regression, Ridge, Lasso, Decision Tree Regressor, Random Forest Regressor.
+4. Use 5-fold cross-validation for each model.
+5. Tune the best model using `GridSearchCV`.
+6. Evaluate the final tuned model on the test set.
+7. Print feature importances.
+8. Save the final model using `joblib`.
+
+**Expected Output**:
+```
+CV Results (5-fold R²):
+Linear Regression:     0.61 ± 0.03
+Ridge (alpha=1.0):     0.61 ± 0.03
+Lasso (alpha=0.1):     0.60 ± 0.03
+Decision Tree:         0.63 ± 0.06
+Random Forest:         0.80 ± 0.02  ← Best CV Score
+
+GridSearchCV Best Params: {n_estimators: 200, max_depth: 10}
+
+Final Test Set R²: 0.82
+Final Test RMSE:   0.47
+
+Top 5 Features:
+1. MedInc          (0.52)
+2. AveRooms        (0.13)
+3. Latitude        (0.09)
+...
+
+Model saved to 'housing_model.joblib'
+```
+
+---
+

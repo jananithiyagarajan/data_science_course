@@ -571,6 +571,232 @@ If you need sorted order → use sorted(), list, or OrderedSet (3rd-party)
 | Implementation     | Hash Table                                               |
 | Best Use Cases     | Membership testing, removing duplicates, math operations |
 
+---
+
+## **Dictionary {}**
+
+A dictionary in Python is a mutable, unordered (insertion-ordered since Python 3.7+) collection of **key-value pairs**.
+Each key must be unique and immutable (str, int, tuple); values can be anything.
+
+Python dictionaries:
+- Store data as **key: value** pairs
+- Are very fast for lookup (O(1))
+- Are ideal for representing real-world objects and structured data
+
+### Key Characteristics of Dictionaries
+
+✔ **Key-Value Pairs**
+Every entry has a key (unique) and a value.
+```python
+student = {"name": "Arun", "age": 22, "grade": "A"}
+```
+
+✔ **Ordered (Python 3.7+)**
+Dictionaries maintain insertion order.
+
+✔ **Mutable**
+You can add, update, or delete key-value pairs.
+
+✔ **No Duplicate Keys**
+If a duplicate key is assigned, the value gets overwritten.
+```python
+d = {"x": 1, "x": 2}
+print(d)  # {'x': 2}
+```
+
+✔ **Keys Must Be Hashable**
+Keys can be: `str`, `int`, `float`, `tuple` — but not `list` or `dict`.
+
+### Examples of Dictionary Usage
+
+#### Creating a Dictionary
+```python
+# Empty dictionary
+empty = {}
+empty = dict()
+
+# With data
+person = {"name": "Priya", "age": 25, "city": "Chennai"}
+
+# From keyword arguments
+car = dict(brand="Toyota", model="Camry", year=2022)
+```
+
+#### Accessing Values
+```python
+student = {"name": "Kumar", "age": 21}
+
+print(student["name"])          # Kumar
+print(student.get("age"))       # 21
+print(student.get("marks", 0))  # 0 (default if key missing)
+```
+
+#### Adding & Updating
+```python
+student["email"] = "kumar@example.com"   # Add new key
+student["age"] = 22                      # Update existing key
+student.update({"city": "Coimbatore", "age": 23})  # Multiple updates
+```
+
+#### Removing Elements
+```python
+d = {"a": 1, "b": 2, "c": 3}
+
+del d["a"]           # Delete by key
+d.pop("b")           # Remove and return value
+d.popitem()          # Remove last inserted pair
+d.clear()            # Remove all items
+```
+
+#### Iterating Over a Dictionary
+```python
+info = {"name": "Bhuvi", "age": 20, "city": "Madurai"}
+
+# Keys
+for key in info:
+    print(key)
+
+# Values
+for value in info.values():
+    print(value)
+
+# Key-Value pairs
+for key, value in info.items():
+    print(f"{key}: {value}")
+```
+
+#### Dictionary Comprehension
+```python
+squares = {x: x**2 for x in range(1, 6)}
+print(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+```
+
+### Common Dictionary Methods
+
+| Method             | Description                        | Example                         |
+| ------------------ | ---------------------------------- | ------------------------------- |
+| `d.keys()`         | Returns all keys                   | `dict_keys(['name', 'age'])`    |
+| `d.values()`       | Returns all values                 | `dict_values(['Arun', 22])`     |
+| `d.items()`        | Returns key-value pairs            | `dict_items([('name','Arun')])` |
+| `d.get(k, def)`    | Get value or default               | `d.get('x', 0)`                 |
+| `d.update(dict2)`  | Merge another dict in              | `d.update({'city': 'Chennai'})` |
+| `d.pop(key)`       | Remove and return value            | `d.pop('age')`                  |
+| `d.popitem()`      | Remove last item                   | `d.popitem()`                   |
+| `d.clear()`        | Remove all items                   | `d.clear()`                     |
+| `key in d`         | Check if key exists                | `'name' in d → True`            |
+| `d.copy()`         | Shallow copy                       | `d2 = d.copy()`                 |
+| `d.setdefault(k)`  | Set default if key missing         | `d.setdefault('score', 0)`      |
+
+### Advantages of Dictionaries
+
+✅ 1. **Fast Lookup (O(1))**
+Finding a value by key is extremely fast.
+
+✅ 2. **Intuitive Data Representation**
+Model real-world objects naturally (e.g., a student record).
+
+✅ 3. **Flexible Values**
+Values can be any type: lists, tuples, other dicts, functions.
+
+✅ 4. **Dynamic**
+Easily add, update, and remove entries.
+
+### Disadvantages of Dictionaries
+
+❌ 1. **No Duplicate Keys**
+Only one value per key — duplicate keys overwrite.
+
+❌ 2. **More Memory than Lists**
+Due to the hash table implementation.
+
+❌ 3. **Keys Must Be Immutable**
+Cannot use lists or other dicts as keys.
+
+### Summary Table
+
+| Feature              | Details                              |
+| -------------------- | ------------------------------------ |
+| Ordered (3.7+)       | ✔ Yes                               |
+| Mutable              | ✔ Yes                               |
+| Duplicate Keys       | ❌ No                                |
+| Heterogeneous Values | ✔ Yes                               |
+| Implementation       | Hash Table                          |
+| Best Use Cases       | Lookup tables, configs, JSON-like data |
+
+---
+
+## 🎯 Student Tasks – Module 03: Data Structures
+
+### Task 1: Student Record Manager (Easy)
+**Objective**: Practice dictionary creation and access.
+
+**Instructions**:
+1. Create a dictionary to store a student's: name, age, marks (as a list of 5 subjects), and city.
+2. Print each field with a label.
+3. Calculate and print the average marks.
+4. Add a new field `"passed"` — set to `True` if average ≥ 50, else `False`.
+
+**Expected Output**:
+```
+Name: Kavya
+Age: 20
+Marks: [85, 90, 78, 92, 88]
+Average: 86.6
+City: Coimbatore
+Passed: True
+```
+
+---
+
+### Task 2: Shopping Cart Simulator (Medium)
+**Objective**: Combine lists, dictionaries, and loops.
+
+**Instructions**:
+1. Create a list of dictionaries where each dict has: `name`, `price`, `quantity`.
+2. Calculate the total cost for each item (`price * quantity`).
+3. Calculate the grand total.
+4. Print a formatted bill.
+5. Find the most expensive item.
+
+**Expected Output**:
+```
+--- Shopping Bill ---
+Rice      : ₹50 x 2 = ₹100
+Milk      : ₹30 x 3 = ₹90
+Bread     : ₹25 x 1 = ₹25
+
+Grand Total: ₹215
+Most Expensive: Rice (₹50)
+```
+
+---
+
+### Task 3: Word Frequency Counter (Challenge)
+**Objective**: Use dictionaries for data analysis.
+
+**Instructions**:
+1. Take a sentence as input from the user.
+2. Split it into words and convert all to lowercase.
+3. Count the frequency of each word using a dictionary.
+4. Print the words sorted by frequency (highest first).
+5. Print the most repeated word.
+6. Remove common stop words: `["the", "a", "an", "is", "in", "of", "and"]`.
+
+**Expected Output**:
+```
+Enter sentence: The cat sat on the mat and the cat
+Word Frequencies (stop words removed):
+  cat   : 2
+  sat   : 1
+  mat   : 1
+  on    : 1
+
+Most repeated word: 'cat' (2 times)
+```
+
+---
+
+
 
 
 

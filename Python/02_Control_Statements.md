@@ -111,17 +111,67 @@ if True:
 | `if...elif...else` | Multiple conditions                | `if x>0 elif x==0 else:` |
 | Nested `if`        | One `if` inside another            | `if x>0: if x%2==0:`     |
 
-### Python Programming Practice Report (control statements)
+---
+
+## 🎯 Student Tasks – Module 02: Control Flow (Conditional Statements)
+
+### Task 1: Age Category Checker (Easy)
+**Objective**: Practice if/elif/else with user input.
+
+**Instructions**:
+1. Ask the user to enter their age.
+2. Print the appropriate category:
+   - 0–12: `"Child"`
+   - 13–17: `"Teenager"`
+   - 18–59: `"Adult"`
+   - 60+: `"Senior"`
+
+**Expected Output**:
 ```
-Control Statements
-
-1.Ask the user for their age — print if they are a child, teenager, or adult.
-
-2.Take temperature input — print “Hot”, “Warm”, or “Cold”.
-
-3.Ask for a number — print if it’s even or odd.
-
-4.Ask for marks — print the grade (A/B/C/Fail).
-
-5.Ask for a password — print “Access granted” only if correct.
+Enter your age: 15
+You are a Teenager.
 ```
+
+---
+
+### Task 2: Grade & Result System (Medium)
+**Objective**: Practice nested if and elif chains.
+
+**Instructions**:
+1. Ask the user to enter marks (0–100).
+2. Print the grade and result:
+   - 90–100 → Grade A+, Pass
+   - 75–89  → Grade A, Pass
+   - 60–74  → Grade B, Pass
+   - 45–59  → Grade C, Pass
+   - Below 45 → Grade F, Fail
+3. If marks are below 0 or above 100, print `"Invalid marks entered."`.
+
+**Expected Output**:
+```
+Enter marks: 82
+Grade: A  |  Result: Pass
+```
+
+---
+
+### Task 3: Login System Simulator (Challenge)
+**Objective**: Combine comparison and logical operators.
+
+**Instructions**:
+1. Store a correct username and password in variables.
+2. Ask the user to input username and password.
+3. Use `and` to check both together.
+4. If username is correct but password is wrong → `"Wrong password"`.
+5. If username is wrong → `"User not found"`.
+6. If both correct → `"Welcome, [username]! Login successful."`.
+7. Allow 3 attempts (hint: use a counter variable with if conditions).
+
+**Expected Output**:
+```
+Enter username: admin
+Enter password: wrong123
+Wrong password. Attempts left: 2
+```
+
+---

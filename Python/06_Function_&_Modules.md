@@ -172,16 +172,168 @@ print(squares)  # Output: [1, 4, 9, 16]
 
 ### Using lambda with `filter()`
 
-```
+```python
 nums = [1, 2, 3, 4, 5, 6]
 even = list(filter(lambda x: x % 2 == 0, nums))
 print(even)  # Output: [2, 4, 6]
 ```
 
+### Using lambda with `sorted()`
 
+```python
+students = [("Arun", 85), ("Priya", 92), ("Kumar", 78)]
+sorted_students = sorted(students, key=lambda s: s[1], reverse=True)
+print(sorted_students)
+# [('Priya', 92), ('Arun', 85), ('Kumar', 78)]
+```
 
+---
 
+## Return Values
 
+A function can send back data to the caller using `return`.
+
+### Single Return Value
+```python
+def square(n):
+    return n * n
+
+result = square(5)
+print(result)   # 25
+```
+
+### Multiple Return Values
+Python functions can return multiple values as a tuple.
+```python
+def min_max(numbers):
+    return min(numbers), max(numbers)
+
+low, high = min_max([3, 1, 7, 2, 9])
+print(low, high)   # 1 9
+```
+
+### Early Return
+```python
+def divide(a, b):
+    if b == 0:
+        return None
+    return a / b
+
+result = divide(10, 0)
+if result is None:
+    print("Cannot divide by zero")
+```
+
+---
+
+## Scope (Variable Scope)
+
+Scope defines where a variable is accessible. Python follows the **LEGB rule**:
+
+| Scope           | Description                                      |
+| --------------- | ------------------------------------------------ |
+| **L**ocal       | Variables defined inside a function              |
+| **E**nclosing   | Variables in enclosing (outer) functions         |
+| **G**lobal      | Variables defined at the top level of the script |
+| **B**uilt-in    | Python built-ins like `print`, `len`, `type`     |
+
+### Local vs Global
+```python
+city = "Chennai"   # global
+
+def show():
+    name = "Arun"  # local
+    print(name, city)  # can access both
+
+show()
+# print(name)  # ❌ NameError - local variable not accessible outside
+```
+
+### The `global` Keyword
+Use `global` to modify a global variable from inside a function.
+```python
+count = 0
+
+def increment():
+    global count
+    count += 1
+
+increment()
+increment()
+print(count)   # 2
+```
+
+### The `nonlocal` Keyword
+Use `nonlocal` to modify a variable from an enclosing (not global) function.
+```python
+def outer():
+    x = 10
+    def inner():
+        nonlocal x
+        x += 5
+    inner()
+    print(x)   # 15
+
+outer()
+```
+
+---
+
+## 🎯 Student Tasks – Module 03 & 04: Functions & Modules
+
+### Task 1: Temperature Converter (Easy)
+**Objective**: Practice defining and calling functions with return values.
+
+**Instructions**:
+1. Write `celsius_to_fahrenheit(c)` — Formula: `F = (C × 9/5) + 32`
+2. Write `fahrenheit_to_celsius(f)` for the reverse.
+3. Ask the user for a temperature and unit (`C` or `F`).
+4. Call the right function and print the converted result.
+
+**Expected Output**:
+```
+Enter temperature: 100
+Enter unit (C/F): C
+100°C = 212.0°F
+```
+
+---
+
+### Task 2: Lambda & Higher-Order Functions (Medium)
+**Objective**: Practice lambda with `map`, `filter`, `sorted`.
+
+**Instructions**:
+1. Use `map()` with lambda to get the square of each number in a list.
+2. Use `filter()` with lambda to keep only numbers divisible by 3.
+3. Use `sorted()` with lambda to sort `(name, score)` tuples by score descending.
+
+**Expected Output**:
+```
+Squares: [16, 81, 9, 144, 49, 36, 225]
+Divisible by 3: [9, 3, 12, 6, 15]
+Sorted by score: [('Priya', 95), ('Arun', 88), ('Kumar', 72)]
+```
+
+---
+
+### Task 3: Scope Explorer (Challenge)
+**Objective**: Demonstrate understanding of local, global, and enclosing scope.
+
+**Instructions**:
+1. Create a global variable `total = 0`.
+2. Write `add_to_total(amount)` that uses `global` to update it.
+3. Write a closure `make_multiplier(factor)` that returns an inner function.
+4. Demonstrate `nonlocal` with a counter in nested functions.
+
+**Expected Output**:
+```
+Total after 50: 50
+Total after 30: 80
+double(7) = 14
+counter = 3
+```
+
+---
 
 
 

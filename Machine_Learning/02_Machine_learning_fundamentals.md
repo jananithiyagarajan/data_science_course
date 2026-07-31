@@ -423,3 +423,94 @@ individual Machine Learning algorithms such as:
 
 Each algorithm is designed to solve specific problem types and has its
 own strengths and limitations.
+
+---
+
+## 🎯 Student Tasks – Module 19: ML Fundamentals
+
+### Task 1: Model Evaluation Metrics (Easy)
+**Objective**: Calculate and interpret model evaluation metrics.
+
+**Instructions**:
+Given the following predictions for a binary classification model:
+```
+Actual:    [1, 0, 1, 1, 0, 1, 0, 0, 1, 1]
+Predicted: [1, 0, 0, 1, 0, 1, 1, 0, 1, 0]
+```
+1. Calculate manually: TP, TN, FP, FN.
+2. Calculate: Accuracy, Precision, Recall, F1-Score.
+3. Verify using `sklearn.metrics`.
+4. Plot the Confusion Matrix using seaborn.
+5. Explain when Precision matters more than Recall (and vice versa).
+
+**Expected Output**:
+```
+TP=5, TN=3, FP=1, FN=1
+
+Accuracy:  0.80
+Precision: 0.83
+Recall:    0.71
+F1-Score:  0.77
+
+Confusion Matrix:
+[[3 1]
+ [1 5]]
+```
+
+---
+
+### Task 2: Train-Test Split & Cross-Validation (Medium)
+**Objective**: Practice proper model evaluation techniques.
+
+**Instructions**:
+Using `sklearn.datasets.load_diabetes()` (regression task):
+1. Split into 80/20 train-test (random_state=42).
+2. Train a `LinearRegression` model.
+3. Evaluate: MAE, MSE, RMSE, R² on test set.
+4. Perform 5-fold cross-validation and report mean ± std of R².
+5. Plot predicted vs actual values.
+6. Discuss: How does CV score compare to single train-test split?
+
+**Expected Output**:
+```
+Train-Test Split:
+  MAE:  44.3
+  MSE:  2900.1
+  RMSE: 53.9
+  R²:   0.48
+
+5-Fold Cross-Validation:
+  R² per fold: [0.45, 0.52, 0.41, 0.50, 0.48]
+  Mean R²: 0.47 ± 0.04
+```
+
+---
+
+### Task 3: Overfitting & Regularization Explorer (Challenge)
+**Objective**: Understand overfitting and how regularization controls it.
+
+**Instructions**:
+Using the California Housing dataset:
+1. Train a `PolynomialFeatures(degree=10) + LinearRegression` pipeline.
+2. Print train and test R² scores — observe overfitting.
+3. Apply Ridge Regression (L2) and Lasso Regression (L1) with various alpha values.
+4. Plot: train R² and test R² for different alpha values.
+5. Find the optimal alpha for Ridge and Lasso.
+6. Compare all 4 models in a final report table.
+
+**Expected Output**:
+```
+=== Model Comparison ===
+Model                    Train R²   Test R²
+------------------------------------------
+Polynomial (degree=10)   0.99       0.23    ← Overfitting!
+Ridge (alpha=1.0)        0.78       0.71
+Ridge (alpha=0.01)       0.91       0.68
+Lasso (alpha=0.01)       0.79       0.72
+Lasso (alpha=10.0)       0.55       0.53    ← Underfitting
+
+Best Model: Ridge (alpha=1.0) with Test R²=0.71
+```
+
+---
+

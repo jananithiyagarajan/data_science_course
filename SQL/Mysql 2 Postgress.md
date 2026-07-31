@@ -613,3 +613,153 @@ Connection
 | Use database     | `USE db_name;`         | `\c db_name`                        |
 
 ---
+
+## 🎯 Student Tasks – MySQL to PostgreSQL Migration
+
+### Task 1: Syntax Translation Practice (Easy)
+**Objective**: Translate basic MySQL SQL to PostgreSQL-compatible syntax.
+
+Rewrite the following MySQL statements for PostgreSQL:
+
+```sql
+-- 1. Create table with auto-increment
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    score DECIMAL(5,2)
+);
+
+-- 2. Insert and check last inserted ID
+INSERT INTO students (name, score) VALUES ('Ravi', 88.5);
+SELECT LAST_INSERT_ID();
+
+-- 3. Format date
+SELECT DATE_FORMAT(NOW(), '%d/%m/%Y %H:%i');
+
+-- 4. Check if value is NULL
+SELECT IFNULL(score, 0) FROM students;
+
+-- 5. String contains
+SELECT * FROM students WHERE name LIKE '%avi%';
+```
+
+**Expected PostgreSQL equivalents**:
+```sql
+-- 1. SERIAL for auto-increment
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    score NUMERIC(5,2)
+);
+
+-- 2. Use RETURNING to get inserted ID
+INSERT INTO students (name, score) VALUES ('Ravi', 88.5) RETURNING id;
+
+-- 3. TO_CHAR for date formatting
+SELECT TO_CHAR(NOW(), 'DD/MM/YYYY HH24:MI');
+
+-- 4. COALESCE replaces IFNULL
+SELECT COALESCE(score, 0) FROM students;
+
+-- 5. LIKE works the same
+SELECT * FROM students WHERE name LIKE '%avi%';
+```
+
+---
+
+### Task 2: Migrate a Complete Schema (Medium)
+**Objective**: Migrate a full MySQL e-commerce schema to PostgreSQL.
+
+Given MySQL schema:
+```sql
+CREATE TABLE categories (
+    cat_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    parent_id INT DEFAULT NULL
+);
+
+CREATE TABLE products (
+    prod_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL CHECK (price > 0),
+    category_id INT,
+    is_active TINYINT(1) DEFAULT 1,
+    tags VARCHAR(255),
+    created_at DATETIME DEFAULT NOW(),
+    FOREIGN KEY (category_id) REFERENCES categories(cat_id)
+);
+
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    qty INT CHECK (qty > 0),
+    status ENUM('pending', 'shipped', 'delivered', 'cancelled'),
+    FOREIGN KEY (product_id) REFERENCES products(prod_id)
+);
+```
+
+Tasks:
+1. Rewrite all 3 tables in PostgreSQL syntax.
+2. Replace ENUM with a PostgreSQL `CREATE TYPE`.
+3. Replace TINYINT(1) with BOOLEAN.
+4. Replace VARCHAR tags with TEXT[].
+5. Insert 5 rows per table.
+6. Write 3 queries that use PostgreSQL-specific syntax (JSONB, ARRAY, RETURNING).
+
+---
+
+### Task 3: Live Migration with pgLoader (Challenge)
+**Objective**: Perform a real database migration from MySQL to PostgreSQL.
+
+**Instructions**:
+1. Install MySQL and PostgreSQL (if not already done).
+2. Create the `ecommerce` database in MySQL with 3 tables and 50+ rows.
+3. Install pgLoader: `sudo apt install pgloader`
+4. Write a pgLoader config file:
+```
+LOAD DATABASE
+    FROM mysql://root@localhost/ecommerce
+    INTO postgresql://postgres@localhost/ecommerce_pg
+WITH include no drop, create tables, create indexes,
+     reset sequences, foreign keys
+SET work_mem to '128MB', maintenance_work_mem to '512MB'
+EXCLUDING TABLE NAMES MATCHING 'temp_.*'
+;
+```
+5. Run the migration: `pgloader config.load`
+6. Verify in PostgreSQL:
+   - All tables exist
+   - Row counts match
+   - Data types were converted correctly
+7. Fix any migration errors.
+8. Write a migration report documenting:
+   - Tables migrated
+   - Any type conversion issues
+   - Performance observations
+
+**Expected Output**:
+```
+=== pgLoader Migration Report ===
+
+Source:  mysql://localhost/ecommerce
+Target:  postgresql://localhost/ecommerce_pg
+
+Tables migrated: 3
+Total rows: 150
+
+Table           MySQL Rows  PG Rows  Status
+categories      10          10       ✓
+products        50          50       ✓
+orders          90          90       ✓
+
+Type Conversions:
+  TINYINT(1)    → BOOLEAN  ✓
+  ENUM          → TEXT     (manual type cast needed)
+  VARCHAR tags  → TEXT     ✓
+
+Migration completed in 0.8 seconds.
+Warnings: 2 (ENUM columns need manual type update)
+```
+
+---
+
